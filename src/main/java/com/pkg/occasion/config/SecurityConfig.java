@@ -30,6 +30,7 @@ public class SecurityConfig {
         "/energies/**",
         "/categories/**",
         "/modeles/**",
+        "/modeles/marque/**",
         "/annonces/**",
         "/annonces/offers"
     };

@@ -45,4 +45,8 @@ public class ModeleService {
     public boolean existsById(int id){
         return repository.existsById(id);
     }
+
+    public List<Modele> findByIdmarque(int idMarque){
+        return repository.findById_marque(idMarque);
+    }
 }

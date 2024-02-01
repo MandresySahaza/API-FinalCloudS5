@@ -1,5 +1,7 @@
 package com.pkg.occasion.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +35,10 @@ public class Modele {
     @ManyToOne
     @JoinColumn(name="id_categorie")
     public Categorie categorie;
+
+    @JsonIgnore
+    @Column(name = "id_marque" , insertable = false , updatable = false)
+    public int id_marque;
 
     @ManyToOne
     @JoinColumn(name="id_marque")

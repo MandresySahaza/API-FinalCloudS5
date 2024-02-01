@@ -203,4 +203,37 @@ public class ModeleController {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
+    // ================================================================================
+    // FIN REST methodes
+    // ================================================================================
+
+
+
+
+
+    @GetMapping("/marque/{id}")
+    public ResponseEntity<Format> getByIdMarque(@PathVariable int id) {
+        Marque marque = marqueService.findById(id);
+
+        if(marque == null){
+            Format format = Format.builder()
+                .code(10)
+                .message("Cette marque n'existe pas")
+                .result(null)
+                .time(System.currentTimeMillis())
+                .build();
+            return ResponseEntity.ok(format);
+        }
+
+        Format format = Format.builder()
+            .code(0)
+            .message("OK")
+            .result(service.findByIdmarque(id))
+            .time(System.currentTimeMillis())
+            .build();
+        return ResponseEntity.ok(format);
+    }
 }
