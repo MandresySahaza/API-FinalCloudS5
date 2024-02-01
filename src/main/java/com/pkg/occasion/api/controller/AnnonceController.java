@@ -278,12 +278,14 @@ public class AnnonceController {
             .utilisateur(user.masquer())
             .build();
 
-        service.save(nv_annonce);
+        Annonce apres = service.save(nv_annonce);
+        apres.setPhotos_base(photoService);
+
 
         Format format = Format.builder()
             .code(0)
             .message("OK")
-            .result(nv_annonce)
+            .result(apres)
             .time(System.currentTimeMillis())
             .build();
         return ResponseEntity.ok(format);
