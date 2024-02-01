@@ -553,7 +553,7 @@ public class AnnonceController {
     }
 
 
-    @PreAuthorize("hasRole('USER')")
+    // @PreAuthorize("hasRole('USER')")
     @GetMapping("/offers")
     public ResponseEntity<Format> getAllEnCours(Authentication auth) {
         var user = utilisateurService.findByMail(auth.getName());
