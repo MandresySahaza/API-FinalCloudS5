@@ -240,6 +240,16 @@ public class AnnonceController {
             }
         }
 
+        if(request.getPrix() <= 0){
+            Format format = Format.builder()
+                .code(100)
+                .message("Prix invalide")
+                .result(null)
+                .time(System.currentTimeMillis())
+                .build();
+            return ResponseEntity.ok(format);
+        }
+
         Voiture voiture = voitureService.findById(request.getId_voiture());
 
         if(voiture == null){
@@ -317,7 +327,7 @@ public class AnnonceController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/voiture")
-    public ResponseEntity<Format> createWithVoiture(@RequestBody AnnonceRequestWithVoiture request , Authentication auth) {
+    public ResponseEntity<Format> createWithVoiture(@RequestBody MultipartFile[] files , AnnonceRequestWithVoiture request , Authentication auth) {
 
         if(voitureService.existsByMatricule(request.getVoiture().getMatricule()) == true){
             Format format = Format.builder()
@@ -494,22 +504,22 @@ public class AnnonceController {
 
         Annonce apres = service.save(nv_annonce);
 
-        // for (MultipartFile file : files) {
-        //     try{
-        //         String downloadUrl = Util.uploadFile(file);
+        for (MultipartFile file : files) {
+            try{
+                String downloadUrl = Util.uploadFile(file);
 
-        //         Photo photo = Photo.builder()
-        //             .id(counterService.getNextSequence(Photo.SEQUENCE_NAME))
-        //             .id_annonce(apres.getId())
-        //             .lien(downloadUrl)
-        //             .build();
+                Photo photo = Photo.builder()
+                    .id(counterService.getNextSequence(Photo.SEQUENCE_NAME))
+                    .id_annonce(apres.getId())
+                    .lien(downloadUrl)
+                    .build();
 
-        //         photoService.save(photo);
-        //     }catch(Exception e){
-        //         e.printStackTrace();
-        //     }
+                photoService.save(photo);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
             
-        // }
+        }
 
         Format format = Format.builder()
             .code(0)
