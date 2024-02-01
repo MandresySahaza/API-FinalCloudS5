@@ -555,10 +555,9 @@ public class AnnonceController {
 
     // @PreAuthorize("hasRole('USER')")
     @GetMapping("/offers")
-    public ResponseEntity<Format> getAllEnCours(Authentication auth) {
-        var user = utilisateurService.findByMail(auth.getName());
+    public ResponseEntity<Format> getAllEnCours() {
 
-        List<Annonce> annonces = service.findAnnoncesForUser(user.getId());
+        List<Annonce> annonces = service.findOffers();
         for (Annonce annonce : annonces) {
             annonce.setUtilisateur(utilisateurService.findById(annonce.getId_utilisateur()).masquer());
             annonce.setVoiture(voitureService.findById(annonce.getId_Voiture())); 

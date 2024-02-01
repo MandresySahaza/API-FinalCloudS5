@@ -21,5 +21,8 @@ public interface AnnonceRepository extends JpaRepository<Annonce , Integer>{
     List<Annonce> findByStatus(int status);
 
     @Query(value = "SELECT * FROM Annonces WHERE id_Utilisateur != :id_Utilisateur AND status = 10" , nativeQuery = true)
-    List<Annonce> findOffersForUser(@Param("id_Utilisateur")int id_utilisateur);
+    List<Annonce> findOffers(@Param("id_Utilisateur")int id_utilisateur);
+
+    @Query(value = "SELECT * FROM Annonces WHERE status = 10" , nativeQuery = true)
+    List<Annonce> findOffers();
 }

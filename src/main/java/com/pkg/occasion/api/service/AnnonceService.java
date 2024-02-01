@@ -59,7 +59,7 @@ public class AnnonceService {
         return repository.findByStatus(0);   
     }
 
-    public List<Annonce> findAnnoncesForUser(int id_user){
-        return repository.findOffersForUser(id_user);
+    public List<Annonce> findOffers(){
+        return repository.findOffers();
     }
 }
