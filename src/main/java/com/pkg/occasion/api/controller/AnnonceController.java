@@ -328,8 +328,9 @@ public class AnnonceController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/voiture")
     public ResponseEntity<Format> createWithVoiture(@RequestBody MultipartFile[] files , AnnonceRequestWithVoiture request , Authentication auth) {
+        request.setVoitureRequest();
 
-        if(voitureService.existsByMatricule(request.getVoiture().getMatricule()) == true){
+        if(voitureService.existsByMatricule(request.getVoitureRequest().getMatricule()) == true){
             Format format = Format.builder()
                 .code(10)
                 .message("La voiture entré existe deja")
@@ -353,7 +354,7 @@ public class AnnonceController {
 
         // Debut Check existence 
 
-        Categorie categorie = categorieService.findById(request.getVoiture().getId_categorie());
+        Categorie categorie = categorieService.findById(request.getVoitureRequest().getId_categorie());
 
         if(categorie == null){
             Format format = Format.builder()
@@ -365,7 +366,7 @@ public class AnnonceController {
             return ResponseEntity.ok(format);
         }
 
-        Marque marque = marqueService.findById(request.getVoiture().getId_marque());
+        Marque marque = marqueService.findById(request.getVoitureRequest().getId_marque());
 
         if(marque == null){
             Format format = Format.builder()
@@ -377,7 +378,7 @@ public class AnnonceController {
             return ResponseEntity.ok(format);
         }
 
-        Modele modele = modeleService.findById(request.getVoiture().getId_modele());
+        Modele modele = modeleService.findById(request.getVoitureRequest().getId_modele());
 
         if(modele == null){
             Format format = Format.builder()
@@ -397,7 +398,7 @@ public class AnnonceController {
             return ResponseEntity.ok(format);
         }
 
-        Energie energie = energieService.findById(request.getVoiture().getId_energie());
+        Energie energie = energieService.findById(request.getVoitureRequest().getId_energie());
 
         if(energie == null){
             Format format = Format.builder()
@@ -410,7 +411,7 @@ public class AnnonceController {
         }
 
 
-        BoiteVitesse boite = boitevitesseService.findById(request.getVoiture().getId_boitevitesse());
+        BoiteVitesse boite = boitevitesseService.findById(request.getVoitureRequest().getId_boitevitesse());
 
         if(boite == null){
             Format format = Format.builder()
@@ -423,7 +424,7 @@ public class AnnonceController {
         }
 
 
-        EtatVoiture etat = etatvoitureService.findById(request.getVoiture().getId_etatvoiture());
+        EtatVoiture etat = etatvoitureService.findById(request.getVoitureRequest().getId_etatvoiture());
 
         if(etat == null){
             Format format = Format.builder()
@@ -442,12 +443,12 @@ public class AnnonceController {
 
         Voiture voiture = Voiture.builder() 
             .id(counterService.getNextSequence(Voiture.SEQUENCE_NAME))
-            .id_categorie(request.getVoiture().getId_categorie())
-            .id_marque(request.getVoiture().getId_marque())
-            .id_modele(request.getVoiture().getId_modele())
-            .id_energie(request.getVoiture().getId_energie())
-            .id_boitevitesse(request.getVoiture().getId_boitevitesse())
-            .id_etatvoiture(request.getVoiture().getId_etatvoiture())
+            .id_categorie(request.getVoitureRequest().getId_categorie())
+            .id_marque(request.getVoitureRequest().getId_marque())
+            .id_modele(request.getVoitureRequest().getId_modele())
+            .id_energie(request.getVoitureRequest().getId_energie())
+            .id_boitevitesse(request.getVoitureRequest().getId_boitevitesse())
+            .id_etatvoiture(request.getVoitureRequest().getId_etatvoiture())
 
             .categorie(categorie)
             .marque(marque)
@@ -456,8 +457,8 @@ public class AnnonceController {
             .boite(boite)
             .etatVoiture(etat)
 
-            .kilometrage(request.getVoiture().getKilometrage())
-            .matricule(request.getVoiture().getMatricule())
+            .kilometrage(request.getVoitureRequest().getKilometrage())
+            .matricule(request.getVoitureRequest().getMatricule())
             .build();
 
 
@@ -518,8 +519,9 @@ public class AnnonceController {
             }catch(Exception e){
                 e.printStackTrace();
             }
-            
         }
+
+        apres.setPhotos_base(photoService);
 
         Format format = Format.builder()
             .code(0)
