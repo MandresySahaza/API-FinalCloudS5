@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pkg.occasion.api.service.AnnonceService;
+import com.pkg.occasion.api.service.PhotoService;
 import com.pkg.occasion.api.service.UtilisateurService;
 import com.pkg.occasion.api.service.VoitureService;
 
@@ -50,10 +51,11 @@ public class Favori {
     @Transient
     public Annonce annonce;
 
-    public void setUtilisateurAnnonce(UtilisateurService utilisateurService , AnnonceService annonceService , VoitureService voitureService){
+    public void setUtilisateurAnnonce(UtilisateurService utilisateurService , AnnonceService annonceService , VoitureService voitureService , PhotoService photoService){
         setUtilisateur(utilisateurService.findById(id_Utilisateur));
         Annonce annonce = annonceService.findById(id_Annonce);
         annonce.setUserVoiture(utilisateurService, voitureService);
+        annonce.setPhotos_base(photoService);
         setAnnonce(annonce);
     }
 

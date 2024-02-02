@@ -23,6 +23,7 @@ import com.pkg.occasion.api.request.FavoriRequest;
 import com.pkg.occasion.api.response.Format;
 import com.pkg.occasion.api.service.AnnonceService;
 import com.pkg.occasion.api.service.FavoriService;
+import com.pkg.occasion.api.service.PhotoService;
 import com.pkg.occasion.api.service.UtilisateurService;
 import com.pkg.occasion.api.service.VoitureService;
 
@@ -45,6 +46,9 @@ public class FavoriController {
     @Autowired
     private VoitureService voitureService;
 
+    @Autowired
+    private PhotoService photoService;
+
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -53,7 +57,7 @@ public class FavoriController {
         List<Favori> favoris = service.findAll();
 
         for(Favori f : favoris){
-            f.setUtilisateurAnnonce(utilisateurService, annonceService ,voitureService);
+            f.setUtilisateurAnnonce(utilisateurService, annonceService ,voitureService , photoService);
         }
 
         Format format = Format.builder()
@@ -79,7 +83,7 @@ public class FavoriController {
         }
 
         Favori favori = service.findById(id);
-        favori.setUtilisateurAnnonce(utilisateurService, annonceService , voitureService);
+        favori.setUtilisateurAnnonce(utilisateurService, annonceService , voitureService , photoService);
 
         Format format = Format.builder()
             .code(0)
@@ -225,7 +229,7 @@ public class FavoriController {
         List<Favori> favoris = service.findMyFavourites(user.getId());
 
         for(Favori f : favoris){
-            f.setUtilisateurAnnonce(utilisateurService, annonceService ,voitureService);
+            f.setUtilisateurAnnonce(utilisateurService, annonceService ,voitureService , photoService);
         }
 
         Format format = Format.builder()
