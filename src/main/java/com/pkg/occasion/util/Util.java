@@ -31,15 +31,9 @@ public class Util {
             FirebaseApp.initializeApp(options);
         }
 
-        
-        // File file = new File("firebase/love.jpg");
-
         StorageClient storageClient = StorageClient.getInstance();
 
         String extension = file.getOriginalFilename().split("\\.")[1];
-
-        // String extension = file.getName().split("\\.")[1];
-
 
         File convFile = new File(file.getOriginalFilename());
         convFile.createNewFile();
@@ -57,7 +51,7 @@ public class Util {
 
         convFile.delete();
 
-        String downloadUrl = storageClient.bucket().get(b.getBlobId().getName()).signUrl(1, TimeUnit.DAYS).toString();
+        String downloadUrl = storageClient.bucket().get(b.getBlobId().getName()).signUrl(30, TimeUnit.DAYS).toString();
         return downloadUrl;
     }
 
