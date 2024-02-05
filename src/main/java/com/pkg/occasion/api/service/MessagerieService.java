@@ -61,4 +61,8 @@ public class MessagerieService {
         }
         return false;
     }
+
+    public List<Messagerie> messagesEntre2Personnes(int id1 , int id2){
+        return repository.findMessagesBetweenCurrentUserAndFriend(id1, id2);
+    }
 }

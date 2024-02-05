@@ -1,6 +1,7 @@
 package com.pkg.occasion.api.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -184,4 +185,32 @@ public class MessagerieController {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    // ================================================================================
+    // FIN REST methodes
+    // ================================================================================
+
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/mp/{id}")
+    public ResponseEntity<Format> getMp(@PathVariable int id , Authentication auth){
+        if(utilisateurService.existsById(id) == false){
+            return ResponseEntity.notFound().build();
+        }
+
+        var moi = utilisateurService.findByMail(auth.getName());
+
+        List<Messagerie> messages = service.messagesEntre2Personnes(id, moi.getId());
+        
+        Format valiny = Format.builder()
+            .code(0)
+            .message("OK")
+            .result(messages)
+            .time(System.currentTimeMillis())
+            .build();
+
+        return ResponseEntity.ok(valiny);
+    }
+
 }
