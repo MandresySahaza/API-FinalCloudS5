@@ -577,7 +577,7 @@ public class AnnonceController {
 
     
     // @PreAuthorize("hasRole('USER')")
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<Format> advancedSearch(@RequestBody AnnonceRequestRech request) {
 
         List<Voiture> voitures = voitureService.findSimilars(request.getVoiture() , request.getKilometrageDeb(), request.getKilometrageFin(), request.getMot_cle());
