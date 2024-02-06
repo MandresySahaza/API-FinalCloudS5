@@ -576,10 +576,9 @@ public class AnnonceController {
     }
 
     
-    @PreAuthorize("hasRole('USER')")
+    // @PreAuthorize("hasRole('USER')")
     @GetMapping("/search")
-    public ResponseEntity<Format> advancedSearch(@RequestBody AnnonceRequestRech request , Authentication auth) {
-        var user = utilisateurService.findByMail(auth.getName());
+    public ResponseEntity<Format> advancedSearch(@RequestBody AnnonceRequestRech request) {
 
         List<Voiture> voitures = voitureService.findSimilars(request.getVoiture() , request.getKilometrageDeb(), request.getKilometrageFin(), request.getMot_cle());
         System.out.println("size voitures = "+voitures.size());

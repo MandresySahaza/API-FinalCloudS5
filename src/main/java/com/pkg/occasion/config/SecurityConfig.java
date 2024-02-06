@@ -32,7 +32,8 @@ public class SecurityConfig {
         "/modeles/**",
         "/modeles/marque/**",
         "/annonces/**",
-        "/annonces/offers"
+        "/annonces/offers",
+        "/annonces/search"
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
