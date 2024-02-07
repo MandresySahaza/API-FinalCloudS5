@@ -1,5 +1,8 @@
 package com.pkg.occasion.api.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pkg.occasion.api.model.Utilisateur;
+import com.pkg.occasion.api.model.UtilisateurMasque;
 import com.pkg.occasion.api.request.AuthenticationRequest;
 import com.pkg.occasion.api.request.RegisterRequest;
 import com.pkg.occasion.api.response.Format;
@@ -140,4 +144,31 @@ public class UtilisateurController {
         utilisateurService.deleteById(Integer.parseInt(id.toString()));
         return ResponseEntity.noContent().build();
     }
+
+    // ============================================================
+    // Fin REST controller
+    // ============================================================
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/users")
+    public ResponseEntity<Format> getUtilisateurs_USER(Authentication auth) {
+        List<UtilisateurMasque> liste = new ArrayList<>();
+
+        var user = utilisateurService.findByMail(auth.getName());
+        
+        List<Utilisateur> users = utilisateurService.findAll_USER(user.getId());
+
+        for (Utilisateur utilisateur : users) {
+            liste.add(utilisateur.masquer());
+        }
+
+        Format format = Format.builder()
+            .code(0)
+            .message("OK")
+            .result(liste)
+            .time(System.currentTimeMillis())
+        .build();
+        return ResponseEntity.ok(format);
+    }
+
 }

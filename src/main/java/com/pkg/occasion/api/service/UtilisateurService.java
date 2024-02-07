@@ -45,6 +45,16 @@ public class UtilisateurService {
         return utilisateurRepository.findAll();
     }
 
+    public List<Utilisateur> findAll_USER(int id){
+        List<Utilisateur> liste = utilisateurRepository.getAllUsers();
+        for (Utilisateur utilisateur : liste) {
+            if(utilisateur.getId() == id){
+                liste.remove(utilisateur);
+            }
+        }
+        return liste;
+    }
+
     public Utilisateur findById(int id){
         return utilisateurRepository.findById(id).get();
     }
