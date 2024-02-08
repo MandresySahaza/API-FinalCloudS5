@@ -1,5 +1,6 @@
 package com.pkg.occasion.api.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,12 +48,14 @@ public class UtilisateurService {
 
     public List<Utilisateur> findAll_USER(int id){
         List<Utilisateur> liste = utilisateurRepository.getAllUsers();
+        List<Utilisateur> valiny = new ArrayList<Utilisateur>();
+
         for (Utilisateur utilisateur : liste) {
-            if(utilisateur.getId() == id){
-                liste.remove(utilisateur);
+            if(utilisateur.getId() != id){
+                valiny.add(utilisateur);
             }
         }
-        return liste;
+        return valiny;
     }
 
     public Utilisateur findById(int id){
