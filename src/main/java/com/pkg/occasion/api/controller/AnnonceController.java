@@ -609,17 +609,24 @@ public class AnnonceController {
         }
 
 
+        
+        List<Annonce> valiny = new ArrayList<Annonce>();
 
         for (Annonce annonce : annonces) {
             annonce.setUtilisateur(utilisateurService.findById(annonce.getId_utilisateur()).masquer());
             annonce.setVoiture(voitureService.findById(annonce.getId_Voiture())); 
             annonce.setPhotos_base(photoService);
+
+            if(annonce.enCours() == true){
+                valiny.add(annonce);
+            }
         }
+
 
         Format format = Format.builder()
             .code(0)
             .message("OK")
-            .result(annonces)
+            .result(valiny)
             .time(System.currentTimeMillis())
             .build();
         return ResponseEntity.ok(format);
