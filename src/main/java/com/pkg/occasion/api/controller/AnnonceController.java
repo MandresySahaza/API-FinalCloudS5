@@ -265,18 +265,27 @@ public class AnnonceController {
         var user = utilisateurService.findByMail(auth.getName());
         
 
-        Annonce nv_annonce = Annonce.builder()
-            .id(id)
-            .id_utilisateur(user.getId())
-            .id_Voiture(request.getId_voiture())
-            .datePub(LocalDate.now())
-            .prix(request.getPrix())
-            .status(request.getStatus())
-            .description(request.getDescription())
+        Annonce nv_annonce = service.findById(id);
+        nv_annonce.setId_Voiture(request.getId_voiture());
+        nv_annonce.setPrix(request.getPrix());
+        nv_annonce.setStatus(request.getStatus());
+        nv_annonce.setDescription(request.getDescription());
 
-            .voiture(voiture)
-            .utilisateur(user.masquer())
-            .build();
+
+        nv_annonce.setVoiture(voiture);
+        nv_annonce.setUtilisateur(utilisateurService.findById(nv_annonce.getId_utilisateur()).masquer());
+        // Annonce nv_annonce = Annonce.builder()
+        //     .id(id)
+        //     .id_utilisateur(user.getId())
+        //     .id_Voiture(request.getId_voiture())
+        //     .datePub(LocalDate.now())
+        //     .prix(request.getPrix())
+        //     .status(request.getStatus())
+        //     .description(request.getDescription())
+
+        //     .voiture(voiture)
+        //     .utilisateur(user.masquer())
+        //     .build();
 
         Annonce apres = service.save(nv_annonce);
         apres.setPhotos_base(photoService);
